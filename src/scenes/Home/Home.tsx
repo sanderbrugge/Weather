@@ -10,21 +10,27 @@ interface IState {
   pinnedCoordinate?: number[];
 }
 
+interface GeometryDetails {
+  geometry: {
+    coordinates: number[],
+    type: string
+  },
+  properties: {
+    screenPointX: number
+    screenPointY: number
+  },
+  type: string
+}
+
 export default class Home extends Component<{}, IState> {
-  map;
+  map: MapboxGL.MapView;
 
   state = {
     pinnedCoordinate: undefined
   }
-
-  componentDidMount() {
-    console.log('sup');
-    console.log(this.map);
-  }
-
-  onPress = async (e) => {
-    console.log(e);
-    this.setState({ pinnedCoordinate: e.geometry.coordinates  })
+  
+  onPress = (e: GeometryDetails) => {
+    this.setState({ pinnedCoordinate: e.geometry.coordinates })
   };
 
   render() {
@@ -35,10 +41,10 @@ export default class Home extends Component<{}, IState> {
         <MapboxGL.MapView
           logoEnabled={false}
           compassEnabled={false}
-          ref={(c) => (this.map = c)}
+          ref={(c: MapboxGL.MapView) => (this.map = c)}
           styleURL={MapboxGL.StyleURL.Street}
-          zoomLevel={15}
-          centerCoordinate={[11.256, 43.770]}
+          zoomLevel={10}
+          centerCoordinate={[3.2140535, 51.2067714]}
           style={styles.container}
           onPress={this.onPress}
         >
