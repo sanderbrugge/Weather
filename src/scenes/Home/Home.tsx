@@ -2,18 +2,33 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 // @ts-ignore no official @types declaration files
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import { TOKEN } from '../../Config';
 
-MapboxGL.setAccessToken('sk.eyJ1Ijoic2FuZGVyYnJ1Z2dlIiwiYSI6ImNqc2Via2oyYjB3cHY0M3RiYmhtY2NqNmIifQ.vJXyD8y5dZNOIS6JAKZWJw');
+MapboxGL.setAccessToken(TOKEN);
 
 export default class Home extends Component<{}> {
+  map;
+
+  componentDidMount() {
+    console.log('sup');
+    console.log(this.map);
+  }
+
+  onPress = (e) => console.log(`clicked a location ${e}`);
+
   render() {
     return (
       <View style={styles.container}>
         <MapboxGL.MapView
-            styleURL={MapboxGL.StyleURL.Street}
-            zoomLevel={15}
-            centerCoordinate={[11.256, 43.770]}
-            style={styles.container}>
+          logoEnabled={false}
+          compassEnabled={false}
+          ref={(c) => (this.map = c)} 
+          styleURL={MapboxGL.StyleURL.Street}
+          zoomLevel={15}
+          centerCoordinate={[11.256, 43.770]}
+          style={styles.container}
+          onPress={this.onPress}
+        >
         </MapboxGL.MapView>
       </View>
     );
