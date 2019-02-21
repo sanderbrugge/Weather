@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View } from 'react-native';
 // @ts-ignore no official @types declaration files
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import { MapViewStyles } from './styles';
 
 interface IProps {
   startCoordinates: number[]
@@ -40,7 +41,7 @@ class MapView extends React.Component<IProps, IState> {
     const { startCoordinates } = this.props
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={MapViewStyles.container}>
         <MapboxGL.MapView
           logoEnabled={false}
           compassEnabled={false}
@@ -48,7 +49,7 @@ class MapView extends React.Component<IProps, IState> {
           styleURL={MapboxGL.StyleURL.Street}
           zoomLevel={10}
           centerCoordinate={startCoordinates}
-          style={{ flex: 1 }}
+          style={MapViewStyles.container}
           onPress={this.onPress}
         >
           {pinnedCoordinate &&
