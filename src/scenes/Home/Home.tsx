@@ -6,29 +6,45 @@ import { TOKEN } from '../../Config';
 
 MapboxGL.setAccessToken(TOKEN);
 
-export default class Home extends Component<{}> {
+interface IState {
+  pinnedCoordinate?: number[];
+}
+
+export default class Home extends Component<{}, IState> {
   map;
+
+  state = {
+    pinnedCoordinate: undefined
+  }
 
   componentDidMount() {
     console.log('sup');
     console.log(this.map);
   }
 
-  onPress = (e) => console.log(`clicked a location ${e}`);
+  onPress = async (e) => {
+    console.log(e);
+    this.setState({ pinnedCoordinate: e.geometry.coordinates  })
+  };
 
   render() {
+    const { pinnedCoordinate } = this.state;
+
     return (
       <View style={styles.container}>
         <MapboxGL.MapView
           logoEnabled={false}
           compassEnabled={false}
-          ref={(c) => (this.map = c)} 
+          ref={(c) => (this.map = c)}
           styleURL={MapboxGL.StyleURL.Street}
           zoomLevel={15}
           centerCoordinate={[11.256, 43.770]}
           style={styles.container}
           onPress={this.onPress}
         >
+          {pinnedCoordinate &&
+            <MapboxGL.PointAnnotation id={'point'} coordinate={pinnedCoordinate} />
+          }
         </MapboxGL.MapView>
       </View>
     );
