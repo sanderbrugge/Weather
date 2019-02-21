@@ -10,8 +10,11 @@
     "android": "node node_modules/react-native/local-cli/cli.js run-android"
   },
   "dependencies": {
+    "@types/react-navigation": "^3.0.3",
     "react": "16.6.3",
-    "react-native": "0.58.5"
+    "react-native": "0.58.5",
+    "react-native-gesture-handler": "^1.0.15",
+    "react-navigation": "^3.3.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.6",
