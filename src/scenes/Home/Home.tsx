@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View } from 'react-native';
 // @ts-ignore no official @types declaration files
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { TOKEN, BAZOOKASLATLNG } from '../../Config';
