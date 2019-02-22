@@ -31,7 +31,7 @@ export interface List {
   wind: Wind;
   rain: Rain;
   sys: Sys;
-  dtTxt: string;
+  dt_txt: string;
 }
 
 export interface Main {
