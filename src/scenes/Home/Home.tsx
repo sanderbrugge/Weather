@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Dimensions } from 'react-native';
 // @ts-ignore no official @types declaration files
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { TOKEN, BAZOOKASLATLNG } from '../../Config';
@@ -13,6 +13,7 @@ export default class Home extends Component<{}> {
     return (
       <View style={{ flex: 1 }}>
         <MapView startCoordinates={BAZOOKASLATLNG} />
+        <View style={{ flex: 1 }}></View>
       </View>
     );
   }

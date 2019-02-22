@@ -41,12 +41,12 @@ class MapView extends React.Component<IProps, IState> {
     const { startCoordinates } = this.props
 
     return (
-      <View style={MapViewStyles.container}>
+      <View style={[MapViewStyles.container, {  }]}>
         <MapboxGL.MapView
           logoEnabled={false}
           compassEnabled={false}
           ref={(c: MapboxGL.MapView) => (this.map = c)}
-          styleURL={MapboxGL.StyleURL.Street}
+          styleURL={MapboxGL.StyleURL.Street} 
           zoomLevel={10}
           centerCoordinate={startCoordinates}
           style={MapViewStyles.container}

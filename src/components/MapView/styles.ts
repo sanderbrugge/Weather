@@ -2,6 +2,6 @@ import { StyleSheet } from "react-native";
 
 export const MapViewStyles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 5
   }
 });
