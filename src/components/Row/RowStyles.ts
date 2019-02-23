@@ -9,7 +9,6 @@ export const RowStyles = StyleSheet.create({
   },
   title: {
     flex: 2,
-    marginTop: 15,
     fontWeight: 'bold',
     fontSize: 16,
     color: 'white'

@@ -3,6 +3,7 @@ import { MappedOpenWeather } from '../../scenes/Home/Home';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { RowStyles } from './RowStyles';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+import { colors } from '../../styles/base';
 
 interface RowProps {
   info: MappedOpenWeather;
@@ -25,7 +26,9 @@ const Row: React.FC<RowProps> = ({ info }) => {
       }}>
         <Text style={RowStyles.title}>{info.day}</Text>
         <Text style={RowStyles.title}>{info.description}</Text>
-        <FontAwesome>{Icons.sun}</FontAwesome>
+        <View style={{ flex: 1, alignItems: 'flex-end' }}>
+          <FontAwesome style={{ color: colors.white, fontSize: 40}}>{Icons.sun}</FontAwesome>
+        </View>
       </View>
     </TouchableOpacity>
   );
