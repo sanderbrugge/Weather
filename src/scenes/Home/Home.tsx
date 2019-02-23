@@ -1,64 +1,73 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View, FlatList } from 'react-native';
+import { getDay } from 'date-fns';
 // @ts-ignore no official @types declaration files
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
-import { TOKEN } from '../../Config';
+import { TOKEN, BAZOOKASLATLNG } from '../../Config';
+import MapView from '../../components/MapView';
+import { fetchWeatherDataCoordinates } from '../../api/OpenWeather/OpenWeather';
+import { OpenWeather } from '../../api/OpenWeather/OpenWeather.interfaces';
+import { getDayName } from '../../util/Const';
+import Row from '../../components/Row';
 
 MapboxGL.setAccessToken(TOKEN);
 
 interface IState {
-  pinnedCoordinate?: number[];
+  weatherInfo?: OpenWeather;
 }
 
-interface GeometryDetails {
-  geometry: {
-    coordinates: number[],
-    type: string
-  },
-  properties: {
-    screenPointX: number
-    screenPointY: number
-  },
-  type: string
+export interface MappedOpenWeather {
+  day: string;
+  description: string;
 }
 
-export default class Home extends Component<{}, IState> {
-  map: MapboxGL.MapView;
+function mapWeatherInfo(weatherInfo: OpenWeather) {
+  return weatherInfo.list.reduce<MappedOpenWeather[]>((accum, item) => {
+    const obj = {
+      day: getDayName(getDay(item.dt_txt)),
+      description: item.weather[0].description
+    }
 
-  state = {
-    pinnedCoordinate: undefined
+    if (!!!accum.find(mapped => mapped.day === getDayName(getDay(item.dt_txt)))) {
+      accum.push(obj)
+    }
+
+    return accum;
+  }, []);
+}
+
+class Home extends Component<{}, IState> {
+  state: IState = {
+    weatherInfo: undefined
   }
-  
-  onPress = (e: GeometryDetails) => {
-    this.setState({ pinnedCoordinate: e.geometry.coordinates })
-  };
+
+  async componentDidMount() {
+    try {
+      const response = await fetchWeatherDataCoordinates(BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon);
+      this.setState({ weatherInfo: response });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   render() {
-    const { pinnedCoordinate } = this.state;
+    const { weatherInfo } = this.state;
 
     return (
-      <View style={styles.container}>
-        <MapboxGL.MapView
-          logoEnabled={false}
-          compassEnabled={false}
-          ref={(c: MapboxGL.MapView) => (this.map = c)}
-          styleURL={MapboxGL.StyleURL.Street}
-          zoomLevel={10}
-          centerCoordinate={[3.2140535, 51.2067714]}
-          style={styles.container}
-          onPress={this.onPress}
-        >
-          {pinnedCoordinate &&
-            <MapboxGL.PointAnnotation id={'point'} coordinate={pinnedCoordinate} />
+      <View style={{ flex: 1 }}>
+        <MapView startCoordinates={[BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon]} />
+        <View style={{ flex: 1, backgroundColor: 'purple' }}>
+          {weatherInfo &&
+            <FlatList
+              data={mapWeatherInfo(weatherInfo)}
+              renderItem={({ item }) => <Row key={item.day} info={item} />}
+              keyExtractor={item => item.day}
+            />
           }
-        </MapboxGL.MapView>
+        </View>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+export default Home;
