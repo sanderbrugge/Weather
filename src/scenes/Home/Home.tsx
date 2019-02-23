@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { getDay } from 'date-fns';
 // @ts-ignore no official @types declaration files
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
@@ -8,6 +8,7 @@ import MapView from '../../components/MapView';
 import { fetchWeatherDataCoordinates } from '../../api/OpenWeather/OpenWeather';
 import { OpenWeather } from '../../api/OpenWeather/OpenWeather.interfaces';
 import { getDayName } from '../../util/Const';
+import Row from '../../components/Row';
 
 MapboxGL.setAccessToken(TOKEN);
 
@@ -15,7 +16,7 @@ interface IState {
   weatherInfo?: OpenWeather;
 }
 
-interface MappedOpenWeather {
+export interface MappedOpenWeather {
   day: string;
   description: string;
 }
@@ -33,46 +34,6 @@ function mapWeatherInfo(weatherInfo: OpenWeather) {
 
     return accum;
   }, []);
-}
-
-const RowStyles = StyleSheet.create({
-  container: {
-    width: '100%',
-    borderBottomColor: 'grey',
-    borderBottomWidth: 0.3,
-    justifyContent: 'center'
-  },
-  title: {
-    flex: 2,
-    marginTop: 15,
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: 'white'
-  }
-});
-
-interface RowProps {
-  info: MappedOpenWeather;
-}
-
-const Row: React.FC<RowProps> = ({ info }) => {
-  return (
-    <TouchableOpacity
-      onPress={() => console.log('clicked')}
-    >
-      <View style={{
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomColor: 'grey',
-        borderBottomWidth: 0.3,
-        justifyContent: 'center'
-      }}>
-        <Text style={RowStyles.title}>{info.day}</Text>
-        <Text style={RowStyles.title}>{info.description}</Text>
-      </View>
-    </TouchableOpacity>
-  );
 }
 
 class Home extends Component<{}, IState> {
@@ -95,11 +56,12 @@ class Home extends Component<{}, IState> {
     return (
       <View style={{ flex: 1 }}>
         <MapView startCoordinates={[BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon]} />
-        <View style={{ flex: 1, backgroundColor: 'blue' }}>
+        <View style={{ flex: 1, backgroundColor: 'purple' }}>
           {weatherInfo &&
             <FlatList
               data={mapWeatherInfo(weatherInfo)}
               renderItem={({ item }) => <Row key={item.day} info={item} />}
+              keyExtractor={item => item.day}
             />
           }
         </View>
