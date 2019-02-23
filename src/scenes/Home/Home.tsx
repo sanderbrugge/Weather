@@ -90,7 +90,7 @@ class Home extends Component<{}, IState> {
         <View style={{ flex: 1, backgroundColor: bgColor }}>
           {weatherInfo &&
             <FlatList
-              data={mapWeatherInfo(weatherInfo)}
+              data={mapWeatherInfo(weatherInfo).slice(1)}
               renderItem={({ item }) => <Row key={item.day} info={item} />}
               keyExtractor={item => item.day}
             />
