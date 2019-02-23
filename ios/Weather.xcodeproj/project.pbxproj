@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -44,6 +43,9 @@
 		C345797C221E9CEB00F03901 /* libRCTMGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C345797B221E9CCD00F03901 /* libRCTMGL.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
+		2BDAAEC7D1B2448093CA6F6E /* fa-brands-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3C2C5CE43B402E866D399F /* fa-brands-400.ttf */; };
+		E9561561F4F947698FD1044F /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBED1D9E939B412795C3BE23 /* fa-regular-400.ttf */; };
+		47FB4E509DF343F3A3E29BE3 /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6044BB5B510140178FC4C49F /* fa-solid-900.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -383,6 +385,9 @@
 		C3457976221E9CCD00F03901 /* RCTMGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTMGL.xcodeproj; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/RCTMGL.xcodeproj"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		1A3C2C5CE43B402E866D399F /* fa-brands-400.ttf */ = {isa = PBXFileReference; name = "fa-brands-400.ttf"; path = "../static/fonts/fa-brands-400.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FBED1D9E939B412795C3BE23 /* fa-regular-400.ttf */ = {isa = PBXFileReference; name = "fa-regular-400.ttf"; path = "../static/fonts/fa-regular-400.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6044BB5B510140178FC4C49F /* fa-solid-900.ttf */ = {isa = PBXFileReference; name = "fa-solid-900.ttf"; path = "../static/fonts/fa-solid-900.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -628,6 +633,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				C345793F221E9BF800F03901 /* Recovered References */,
+				77E0C60A7F324276A9C8E565 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -677,6 +683,17 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		77E0C60A7F324276A9C8E565 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				1A3C2C5CE43B402E866D399F /* fa-brands-400.ttf */,
+				FBED1D9E939B412795C3BE23 /* fa-regular-400.ttf */,
+				6044BB5B510140178FC4C49F /* fa-solid-900.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -1148,6 +1165,9 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				2BDAAEC7D1B2448093CA6F6E /* fa-brands-400.ttf in Resources */,
+				E9561561F4F947698FD1044F /* fa-regular-400.ttf in Resources */,
+				47FB4E509DF343F3A3E29BE3 /* fa-solid-900.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

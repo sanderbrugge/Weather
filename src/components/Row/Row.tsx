@@ -2,6 +2,7 @@ import * as React from 'react';
 import { MappedOpenWeather } from '../../scenes/Home/Home';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { RowStyles } from './RowStyles';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 interface RowProps {
   info: MappedOpenWeather;
@@ -24,6 +25,7 @@ const Row: React.FC<RowProps> = ({ info }) => {
       }}>
         <Text style={RowStyles.title}>{info.day}</Text>
         <Text style={RowStyles.title}>{info.description}</Text>
+        <FontAwesome>{Icons.sun}</FontAwesome>
       </View>
     </TouchableOpacity>
   );
