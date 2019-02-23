@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { getDay } from 'date-fns';
 // @ts-ignore no official @types declaration files
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
@@ -15,9 +15,67 @@ interface IState {
   weatherInfo?: OpenWeather;
 }
 
-// group days based on date, check which weather description occurs the most and use that as indicator in the listview
+interface MappedOpenWeather {
+  day: string;
+  description: string;
+}
 
-export default class Home extends Component<{}, IState> {
+function mapWeatherInfo(weatherInfo: OpenWeather) {
+  return weatherInfo.list.reduce<MappedOpenWeather[]>((accum, item) => {
+    const obj = {
+      day: getDayName(getDay(item.dt_txt)),
+      description: item.weather[0].description
+    }
+
+    if (!!!accum.find(mapped => mapped.day === getDayName(getDay(item.dt_txt)))) {
+      accum.push(obj)
+    }
+
+    return accum;
+  }, []);
+}
+
+const RowStyles = StyleSheet.create({
+  container: {
+    width: '100%',
+    borderBottomColor: 'grey',
+    borderBottomWidth: 0.3,
+    justifyContent: 'center'
+  },
+  title: {
+    flex: 2,
+    marginTop: 15,
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: 'white'
+  }
+});
+
+interface RowProps {
+  info: MappedOpenWeather;
+}
+
+const Row: React.FC<RowProps> = ({ info }) => {
+  return (
+    <TouchableOpacity
+      onPress={() => console.log('clicked')}
+    >
+      <View style={{
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomColor: 'grey',
+        borderBottomWidth: 0.3,
+        justifyContent: 'center'
+      }}>
+        <Text style={RowStyles.title}>{info.day}</Text>
+        <Text style={RowStyles.title}>{info.description}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+}
+
+class Home extends Component<{}, IState> {
   state: IState = {
     weatherInfo: undefined
   }
@@ -33,16 +91,21 @@ export default class Home extends Component<{}, IState> {
 
   render() {
     const { weatherInfo } = this.state;
-    if (weatherInfo) {
-      console.log(getDayName(getDay(weatherInfo.list[0].dt_txt)));
-    }
+
     return (
       <View style={{ flex: 1 }}>
         <MapView startCoordinates={[BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon]} />
         <View style={{ flex: 1, backgroundColor: 'blue' }}>
-
+          {weatherInfo &&
+            <FlatList
+              data={mapWeatherInfo(weatherInfo)}
+              renderItem={({ item }) => <Row key={item.day} info={item} />}
+            />
+          }
         </View>
       </View>
     );
   }
 }
+
+export default Home;
