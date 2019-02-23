@@ -10,6 +10,7 @@ import { OpenWeather, Coordinates } from '../../api/OpenWeather/OpenWeather.inte
 import { getDayName } from '../../util/Const';
 import Row from '../../components/Row';
 import { GeometryDetails } from '../../components/MapView/MapView';
+import { colors, listViewBGColors } from '../../styles/base';
 
 MapboxGL.setAccessToken(TOKEN);
 
@@ -36,12 +37,14 @@ function mapWeatherInfo(weatherInfo: OpenWeather) {
 interface IState {
   weatherInfo?: OpenWeather;
   coordinates: number[];
+  bgColor: string;
 }
 
 class Home extends Component<{}, IState> {
   state: IState = {
     weatherInfo: undefined,
-    coordinates: [BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon]
+    coordinates: [BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon],
+    bgColor: colors.blue
   }
 
   componentDidMount() {
@@ -51,7 +54,7 @@ class Home extends Component<{}, IState> {
   fetchWeatherData = async (coordinates: Coordinates) => {
     try {
       const response = await fetchWeatherDataCoordinates(coordinates.lat, coordinates.lon);
-      this.setState({ weatherInfo: response });
+      this.setState({ weatherInfo: response, bgColor: this.getRandomColor() });
     } catch (e) {
       console.log(e);
     }
@@ -68,13 +71,21 @@ class Home extends Component<{}, IState> {
     this.fetchWeatherData(coordinates);
   };
 
+  getRandomColor = () => {
+    // @ts-ignore
+    const availableColors = Object.keys(listViewBGColors).filter(color => listViewBGColors[color] !== this.state.bgColor);
+    const keys = Object.keys(availableColors)
+    // @ts-ignore
+    return availableColors[keys[ keys.length * Math.random() << 0]];
+  }
+
   render() {
-    const { weatherInfo, coordinates } = this.state;
+    const { weatherInfo, coordinates, bgColor } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
         <MapView coordinates={coordinates} updateCoordinates={this.updateCoordinates} />
-        <View style={{ flex: 1, backgroundColor: 'purple' }}>
+        <View style={{ flex: 1, backgroundColor: bgColor }}>
           {weatherInfo &&
             <FlatList
               data={mapWeatherInfo(weatherInfo)}

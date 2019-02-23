@@ -17,3 +17,10 @@ export const colors = {
   yellow: '#FFFF00',
   transparent: 'transparent',
 }
+
+export const listViewBGColors = {
+  red: '#DC143C',
+  blue: '#4169E1',
+  green: '#008000',
+  purple: '800080',
+}
