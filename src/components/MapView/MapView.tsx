@@ -35,7 +35,7 @@ class MapView extends React.Component<IProps> {
           compassEnabled={false}
           ref={(c: MapboxGL.MapView) => (this.map = c)}
           styleURL={MapboxGL.StyleURL.Street}
-          zoomLevel={5}
+          zoomLevel={8}
           centerCoordinate={coordinates}
           style={MapViewStyles.container}
           onPress={updateCoordinates}
