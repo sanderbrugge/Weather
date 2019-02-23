@@ -6,15 +6,12 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { TOKEN, BAZOOKASLATLNG } from '../../Config';
 import MapView from '../../components/MapView';
 import { fetchWeatherDataCoordinates } from '../../api/OpenWeather/OpenWeather';
-import { OpenWeather } from '../../api/OpenWeather/OpenWeather.interfaces';
+import { OpenWeather, Coordinates } from '../../api/OpenWeather/OpenWeather.interfaces';
 import { getDayName } from '../../util/Const';
 import Row from '../../components/Row';
+import { GeometryDetails } from '../../components/MapView/MapView';
 
 MapboxGL.setAccessToken(TOKEN);
-
-interface IState {
-  weatherInfo?: OpenWeather;
-}
 
 export interface MappedOpenWeather {
   day: string;
@@ -36,26 +33,47 @@ function mapWeatherInfo(weatherInfo: OpenWeather) {
   }, []);
 }
 
+interface IState {
+  weatherInfo?: OpenWeather;
+  coordinates: number[];
+}
+
 class Home extends Component<{}, IState> {
   state: IState = {
-    weatherInfo: undefined
+    weatherInfo: undefined,
+    coordinates: [BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon]
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.fetchWeatherData(BAZOOKASLATLNG);
+  }
+
+  fetchWeatherData = async (coordinates: Coordinates) => {
     try {
-      const response = await fetchWeatherDataCoordinates(BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon);
+      const response = await fetchWeatherDataCoordinates(coordinates.lat, coordinates.lon);
       this.setState({ weatherInfo: response });
     } catch (e) {
       console.log(e);
     }
   }
 
+  updateCoordinates = (e: GeometryDetails) => {
+    const coordinates = {
+      lat: e.geometry.coordinates[0],
+      lon: e.geometry.coordinates[1],
+    }
+
+    this.setState({ coordinates: e.geometry.coordinates })
+
+    this.fetchWeatherData(coordinates);
+  };
+
   render() {
-    const { weatherInfo } = this.state;
+    const { weatherInfo, coordinates } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
-        <MapView startCoordinates={[BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon]} />
+        <MapView coordinates={coordinates} updateCoordinates={this.updateCoordinates} />
         <View style={{ flex: 1, backgroundColor: 'purple' }}>
           {weatherInfo &&
             <FlatList

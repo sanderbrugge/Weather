@@ -3,17 +3,13 @@ import { View } from 'react-native';
 // @ts-ignore no official @types declaration files
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { MapViewStyles } from './styles';
-import { BAZOOKASLATLNG } from '../../Config';
 
 interface IProps {
-  startCoordinates: number[]
+  coordinates: number[]
+  updateCoordinates: (e: GeometryDetails) => void;
 }
 
-interface IState {
-  pinnedCoordinate: number[];
-}
-
-interface GeometryDetails {
+export interface GeometryDetails {
   geometry: {
     coordinates: number[],
     type: string
@@ -26,20 +22,11 @@ interface GeometryDetails {
 }
 
 
-class MapView extends React.Component<IProps, IState> {
+class MapView extends React.Component<IProps> {
   map: MapboxGL.MapView;
 
-  state = {
-    pinnedCoordinate: [BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon]
-  }
-
-  onPress = (e: GeometryDetails) => {
-    this.setState({ pinnedCoordinate: e.geometry.coordinates })
-  };
-
   render() {
-    const { pinnedCoordinate } = this.state;
-    const { startCoordinates } = this.props
+    const { coordinates, updateCoordinates } = this.props
 
     return (
       <View style={[MapViewStyles.container, {}]}>
@@ -48,12 +35,12 @@ class MapView extends React.Component<IProps, IState> {
           compassEnabled={false}
           ref={(c: MapboxGL.MapView) => (this.map = c)}
           styleURL={MapboxGL.StyleURL.Street}
-          zoomLevel={10}
-          centerCoordinate={startCoordinates}
+          zoomLevel={5}
+          centerCoordinate={coordinates}
           style={MapViewStyles.container}
-          onPress={this.onPress}
+          onPress={updateCoordinates}
         >
-          <MapboxGL.PointAnnotation id={'point'} coordinate={pinnedCoordinate} />
+          <MapboxGL.PointAnnotation id={'point'} coordinate={coordinates} />
         </MapboxGL.MapView>
       </View>
     );
