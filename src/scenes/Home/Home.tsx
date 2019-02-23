@@ -6,15 +6,13 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { TOKEN, BAZOOKASLATLNG } from '../../Config';
 import MapView from '../../components/MapView';
 import { fetchWeatherDataCoordinates } from '../../api/OpenWeather/OpenWeather';
-import { OpenWeather } from '../../api/OpenWeather/OpenWeather.interfaces';
+import { OpenWeather, Coordinates } from '../../api/OpenWeather/OpenWeather.interfaces';
 import { getDayName } from '../../util/Const';
 import Row from '../../components/Row';
+import { GeometryDetails } from '../../components/MapView/MapView';
+import { colors, listViewBGColors } from '../../styles/base';
 
 MapboxGL.setAccessToken(TOKEN);
-
-interface IState {
-  weatherInfo?: OpenWeather;
-}
 
 export interface MappedOpenWeather {
   day: string;
@@ -36,27 +34,58 @@ function mapWeatherInfo(weatherInfo: OpenWeather) {
   }, []);
 }
 
+interface IState {
+  weatherInfo?: OpenWeather;
+  coordinates: number[];
+  bgColor: string;
+}
+
 class Home extends Component<{}, IState> {
   state: IState = {
-    weatherInfo: undefined
+    weatherInfo: undefined,
+    coordinates: [BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon],
+    bgColor: colors.blue
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.fetchWeatherData(BAZOOKASLATLNG);
+  }
+
+  fetchWeatherData = async (coordinates: Coordinates) => {
     try {
-      const response = await fetchWeatherDataCoordinates(BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon);
-      this.setState({ weatherInfo: response });
+      const response = await fetchWeatherDataCoordinates(coordinates.lat, coordinates.lon);
+      this.setState({ weatherInfo: response, bgColor: this.getRandomColor() });
     } catch (e) {
       console.log(e);
     }
   }
 
+  updateCoordinates = (e: GeometryDetails) => {
+    const coordinates = {
+      lat: e.geometry.coordinates[0],
+      lon: e.geometry.coordinates[1],
+    }
+
+    this.setState({ coordinates: e.geometry.coordinates })
+
+    this.fetchWeatherData(coordinates);
+  };
+
+  getRandomColor = () => {
+    // @ts-ignore
+    const availableColors = Object.keys(listViewBGColors).filter(color => listViewBGColors[color] !== this.state.bgColor);
+    const keys = Object.keys(availableColors)
+    // @ts-ignore
+    return availableColors[keys[ keys.length * Math.random() << 0]];
+  }
+
   render() {
-    const { weatherInfo } = this.state;
+    const { weatherInfo, coordinates, bgColor } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
-        <MapView startCoordinates={[BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon]} />
-        <View style={{ flex: 1, backgroundColor: 'purple' }}>
+        <MapView coordinates={coordinates} updateCoordinates={this.updateCoordinates} />
+        <View style={{ flex: 1, backgroundColor: bgColor }}>
           {weatherInfo &&
             <FlatList
               data={mapWeatherInfo(weatherInfo)}
