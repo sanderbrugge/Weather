@@ -54,9 +54,11 @@ export interface Sys {
 }
 
 
+export type WeatherMain = "Rain" | "Clouds" | "Clear" | "Thunderstorm" | "Drizzle" | "Snow" | "Atmosphere";
+
 export interface Weather {
   id: number;
-  main: string;
+  main: WeatherMain;
   description: string;
   icon: string;
 }

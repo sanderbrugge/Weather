@@ -6,7 +6,7 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { TOKEN, BAZOOKASLATLNG } from '../../Config';
 import MapView from '../../components/MapView';
 import { fetchWeatherDataCoordinates } from '../../api/OpenWeather/OpenWeather';
-import { OpenWeather, Coordinates } from '../../api/OpenWeather/OpenWeather.interfaces';
+import { OpenWeather, Coordinates, WeatherMain } from '../../api/OpenWeather/OpenWeather.interfaces';
 import { getDayName } from '../../util/Const';
 import Row from '../../components/Row';
 import { GeometryDetails } from '../../components/MapView/MapView';
@@ -16,6 +16,7 @@ MapboxGL.setAccessToken(TOKEN);
 
 export interface MappedOpenWeather {
   day: string;
+  main: WeatherMain;
   description: string;
 }
 
@@ -23,6 +24,7 @@ function mapWeatherInfo(weatherInfo: OpenWeather) {
   return weatherInfo.list.reduce<MappedOpenWeather[]>((accum, item) => {
     const obj = {
       day: getDayName(getDay(item.dt_txt)),
+      main: item.weather[0].main,
       description: item.weather[0].description
     }
 
