@@ -11,6 +11,7 @@ import { getDayName } from '../../util/Const';
 import Row from '../../components/Row';
 import { GeometryDetails } from '../../components/MapView/MapView';
 import { colors, listViewBGColors } from '../../styles/base';
+import { withNavigation, NavigationInjectedProps, NavigationParams } from 'react-navigation';
 
 MapboxGL.setAccessToken(TOKEN);
 
@@ -18,23 +19,56 @@ export interface MappedOpenWeather {
   day: string;
   main: WeatherMain;
   description: string;
+  maxTemp: number;
+  minTemp: number;
+  humidity: number[];
+  temp: number[]
+  windSpeed: number[];
 }
 
-function mapWeatherInfo(weatherInfo: OpenWeather) {
-  return weatherInfo.list.reduce<MappedOpenWeather[]>((accum, item) => {
+export interface Forecast {
+  [x: string]: MappedOpenWeather;
+}
+
+function mapInfo(weatherInfo: OpenWeather) {
+  return weatherInfo.list.reduce<Forecast>((accum, item) => {
     const obj = {
       day: getDayName(getDay(item.dt_txt)),
       main: item.weather[0].main,
-      description: item.weather[0].description
+      description: item.weather[0].description,
+      maxTemp: item.main.temp_max,
+      minTemp: item.main.temp_min,
+      temp: [],
+      humidity: [],
+      windSpeed: []
     }
 
-    if (!!!accum.find(mapped => mapped.day === getDayName(getDay(item.dt_txt)))) {
-      accum.push(obj)
+    if (!accum[obj.day]) {
+      accum[obj.day] = obj;
+      accum[obj.day].temp = [item.main.temp];
+      accum[obj.day].humidity = [item.main.humidity];
+      accum[obj.day].windSpeed = [item.wind.speed]
+      return accum;
     }
+
+    if(accum[obj.day].minTemp > obj.minTemp) {
+      accum[obj.day].minTemp = obj.minTemp;
+    }
+
+    if(accum[obj.day].maxTemp < obj.maxTemp) {
+      accum[obj.day].maxTemp = obj.maxTemp;
+    }
+
+
+    accum[obj.day].temp = [...accum[obj.day].temp, item.main.temp];
+    accum[obj.day].humidity = [...accum[obj.day].humidity, item.main.humidity];
+    accum[obj.day].windSpeed = [...accum[obj.day].windSpeed, item.wind.speed]
 
     return accum;
-  }, []);
+  }, {});
 }
+
+interface IProps extends NavigationInjectedProps<NavigationParams> { }
 
 interface IState {
   weatherInfo?: OpenWeather;
@@ -42,7 +76,7 @@ interface IState {
   bgColor: string;
 }
 
-class Home extends Component<{}, IState> {
+class Home extends Component<IProps, IState> {
   state: IState = {
     weatherInfo: undefined,
     coordinates: [BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon],
@@ -78,7 +112,16 @@ class Home extends Component<{}, IState> {
     const availableColors = Object.keys(listViewBGColors).filter(color => listViewBGColors[color] !== this.state.bgColor);
     const keys = Object.keys(availableColors)
     // @ts-ignore
-    return availableColors[keys[ keys.length * Math.random() << 0]];
+    return availableColors[keys[keys.length * Math.random() << 0]];
+  }
+
+  onDaySelect = () => {
+    const { weatherInfo, coordinates, bgColor } = this.state;
+    if (weatherInfo) {
+      const info = mapInfo(weatherInfo)
+
+      this.props.navigation.navigate('Detail', { 'info': info, 'coordinates': coordinates, 'bgColor': bgColor });
+    }
   }
 
   render() {
@@ -86,13 +129,13 @@ class Home extends Component<{}, IState> {
 
     return (
       <View style={{ flex: 1 }}>
-        <MapView coordinates={coordinates} updateCoordinates={this.updateCoordinates} />
+        <MapView coordinates={coordinates} updateCoordinates={this.updateCoordinates} zoomEnabled pitchEnabled scrollEnabled />
         <View style={{ flex: 1, backgroundColor: bgColor }}>
           {weatherInfo &&
             <FlatList
-              data={mapWeatherInfo(weatherInfo)}
-              renderItem={({ item }) => <Row key={item.day} info={item} />}
-              keyExtractor={item => item.day}
+              data={Object.values(mapInfo(weatherInfo)).slice(1)}
+              renderItem={({ item, index }) => <Row key={index} info={item} onPress={this.onDaySelect} />}
+              keyExtractor={(item) => item.day}
             />
           }
         </View>
@@ -101,4 +144,4 @@ class Home extends Component<{}, IState> {
   }
 }
 
-export default Home;
+export default withNavigation(Home);

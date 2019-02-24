@@ -36,8 +36,8 @@ export interface List {
 
 export interface Main {
   temp: number;
-  tempMin: number;
-  tempMax: number;
+  temp_min: number;
+  temp_max: number;
   pressure: number;
   seaLevel: number;
   grndLevel: number;

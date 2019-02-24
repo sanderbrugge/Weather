@@ -4582,7 +4582,7 @@ prompts@^2.0.1:
     kleur "^3.0.2"
     sisteransi "^1.0.0"
 
-prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.7.2"
   resolved "https://verdaccio.tools.moovly.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -4684,6 +4684,13 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://verdaccio.tools.moovly.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-animatable@^1.3.1:
+  version "1.3.1"
+  resolved "https://verdaccio.tools.moovly.com/react-native-animatable/-/react-native-animatable-1.3.1.tgz#f004a7e9de6838d0fbf210d642593cff7affd9ef"
+  integrity sha512-NoE6OAgCrhggWBRV6rBJup5vLAGoTjx168Tku1RZmjUGIdYRAyGesP/MoqvxiNJjhTAgwYx2LT63VTT1xO8g4Q==
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-fontawesome@^6.0.1:
   version "6.0.1"
   resolved "https://verdaccio.tools.moovly.com/react-native-fontawesome/-/react-native-fontawesome-6.0.1.tgz#6a4f06b3d2523ef2567cdde84c601a1b50733110"
@@ -4697,6 +4704,13 @@ react-native-gesture-handler@^1.0.15, react-native-gesture-handler@~1.0.14:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.2"
     prop-types "^15.5.10"
+
+react-native-image-header-scroll-view@^0.10.1:
+  version "0.10.1"
+  resolved "https://verdaccio.tools.moovly.com/react-native-image-header-scroll-view/-/react-native-image-header-scroll-view-0.10.1.tgz#1dabae40d6ad85b937b723bb61351fe70db2c2e9"
+  integrity sha512-FavfZ+KhO8WaHbNK+iuPy2e6E1oUO9iqnLApYANSyTTyvnwPGKRUD0jodw/Vo5GvPsHCifcvKx157feFkP6Iaw==
+  dependencies:
+    prop-types "^15.6.0"
 
 react-native-safe-area-view@^0.12.0:
   version "0.12.0"
