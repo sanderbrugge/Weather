@@ -23,6 +23,7 @@ const Header: React.FC<IProps> = ({ title, coordinates, child, bgColor }) => {
       maxHeight={250}
       minHeight={80}
       fadeOutForeground
+      scrollViewBackgroundColor={bgColor}
       renderHeader={() => (
         <MapView
           coordinates={coordinates}
@@ -50,7 +51,7 @@ const Header: React.FC<IProps> = ({ title, coordinates, child, bgColor }) => {
           onHide={() => navTitle.fadeInUp(200)}
           onDisplay={() => navTitle.fadeOut(100)}
         />
-        <View style={{ backgroundColor: bgColor, height: 1000 }}>
+        <View style={{ backgroundColor: bgColor }}>
           {child}
         </View>
       </>
