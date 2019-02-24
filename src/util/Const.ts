@@ -8,7 +8,7 @@ enum WeekdayID {
   SIX = 6,
 }
 
-enum Weekday {
+export enum Weekday {
   MONDAY = "Maandag",
   TUESDAY = "Dinsdag",
   WEDNESDAY = "Woensdag",

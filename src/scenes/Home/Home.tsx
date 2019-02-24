@@ -18,22 +18,36 @@ export interface MappedOpenWeather {
   day: string;
   main: WeatherMain;
   description: string;
+  maxTemp: number;
+  minTemp: number;
+  humidity: number;
+  windSpeed: number;
+}
+
+export interface Forecast {
+  [x: string]: MappedOpenWeather[];
 }
 
 function mapWeatherInfo(weatherInfo: OpenWeather) {
-  return weatherInfo.list.reduce<MappedOpenWeather[]>((accum, item) => {
+  return weatherInfo.list.reduce<Forecast>((accum, item) => {
     const obj = {
       day: getDayName(getDay(item.dt_txt)),
       main: item.weather[0].main,
-      description: item.weather[0].description
+      description: item.weather[0].description,
+      maxTemp: item.main.temp_max,
+      minTemp: item.main.temp_min,
+      humidity: item.main.humidity,
+      windSpeed: item.wind.speed
     }
 
-    if (!!!accum.find(mapped => mapped.day === getDayName(getDay(item.dt_txt)))) {
-      accum.push(obj)
+    if (!accum[obj.day]) {
+      accum[obj.day] = [obj];
+      return accum;
     }
 
+    accum[obj.day] = accum[obj.day].concat(obj);
     return accum;
-  }, []);
+  }, {});
 }
 
 interface IState {
@@ -78,8 +92,10 @@ class Home extends Component<{}, IState> {
     const availableColors = Object.keys(listViewBGColors).filter(color => listViewBGColors[color] !== this.state.bgColor);
     const keys = Object.keys(availableColors)
     // @ts-ignore
-    return availableColors[keys[ keys.length * Math.random() << 0]];
+    return availableColors[keys[keys.length * Math.random() << 0]];
   }
+
+
 
   render() {
     const { weatherInfo, coordinates, bgColor } = this.state;
@@ -90,9 +106,9 @@ class Home extends Component<{}, IState> {
         <View style={{ flex: 1, backgroundColor: bgColor }}>
           {weatherInfo &&
             <FlatList
-              data={mapWeatherInfo(weatherInfo).slice(1)}
-              renderItem={({ item }) => <Row key={item.day} info={item} />}
-              keyExtractor={item => item.day}
+              data={Object.values(mapWeatherInfo(weatherInfo)).slice(1)}
+              renderItem={({ item, index }) => <Row key={index} info={item} />}
+              keyExtractor={(item, index) => item[index].day}
             />
           }
         </View>
