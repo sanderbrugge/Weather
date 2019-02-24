@@ -79,7 +79,7 @@ interface IState {
 class Home extends Component<IProps, IState> {
   state: IState = {
     weatherInfo: undefined,
-    coordinates: [BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon],
+    coordinates: [BAZOOKASLATLNG.lon, BAZOOKASLATLNG.lat],
     bgColor: colors.blue
   }
 
@@ -98,8 +98,8 @@ class Home extends Component<IProps, IState> {
 
   updateCoordinates = (e: GeometryDetails) => {
     const coordinates = {
-      lat: e.geometry.coordinates[0],
-      lon: e.geometry.coordinates[1],
+      lat: e.geometry.coordinates[1],
+      lon: e.geometry.coordinates[0],
     }
 
     this.setState({ coordinates: e.geometry.coordinates })
@@ -115,12 +115,11 @@ class Home extends Component<IProps, IState> {
     return availableColors[keys[keys.length * Math.random() << 0]];
   }
 
-  onDaySelect = () => {
+  onDaySelect = (selected: string) => {
     const { weatherInfo, coordinates, bgColor } = this.state;
     if (weatherInfo) {
-      const info = mapInfo(weatherInfo)
-
-      this.props.navigation.navigate('Detail', { 'info': info, 'coordinates': coordinates, 'bgColor': bgColor });
+      const info = mapInfo(weatherInfo);
+      this.props.navigation.navigate('Detail', { 'info': info, 'coordinates': coordinates, 'bgColor': bgColor, 'index': selected });
     }
   }
 
