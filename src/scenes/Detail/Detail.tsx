@@ -82,8 +82,8 @@ class Detail extends React.Component<IProps, IState> {
                     <View style={DetailRowStyles.contentContainer}>
                       <View style={DetailRowStyles.contentRow}>
                         <DetailText icon={Icons.clock} text={landInfo.timezone} />
-                        <DetailText icon={Icons.map} text={`min: ${landInfo.name}`} />
-                        <DetailText icon={Icons.user} text={`min: ${landInfo.population}`} />
+                        <DetailText icon={Icons.map} text={landInfo.name} />
+                        <DetailText icon={Icons.user} text={`${landInfo.population}`} />
                       </View>
                     </View>
                   </View>

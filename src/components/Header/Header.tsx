@@ -4,6 +4,7 @@ import { Text, View } from 'react-native';
 import { DetailStyles } from '../../scenes/Detail/DetailStyles';
 import MapView from '../MapView';
 import * as Animatable from 'react-native-animatable';
+import { dimensions } from '../../styles/base';
 
 interface IProps {
   coordinates: number[];
@@ -13,7 +14,7 @@ interface IProps {
 }
 
 const Header: React.FC<IProps> = ({ title, coordinates, child, bgColor }) => {
-  let navTitle =  React.createRef<Animatable.View>();
+  let navTitle = React.createRef<Animatable.View>();
 
   return (
     <HeaderImageScrollView
@@ -21,6 +22,7 @@ const Header: React.FC<IProps> = ({ title, coordinates, child, bgColor }) => {
       minOverlayOpacity={0.1}
       maxHeight={250}
       minHeight={80}
+      fadeOutForeground
       renderHeader={() => (
         <MapView
           coordinates={coordinates}
@@ -38,20 +40,20 @@ const Header: React.FC<IProps> = ({ title, coordinates, child, bgColor }) => {
         >
           <Text style={DetailStyles.headerTitle}>
             {title}
-        </Text>
+          </Text>
         </Animatable.View>
       )}
     >
-      <View style={{ backgroundColor: bgColor }}>
+
+      <>
         <TriggeringView
           onHide={() => navTitle.fadeInUp(200)}
           onDisplay={() => navTitle.fadeOut(100)}
-        >
-
-        {child}
-       
-        </TriggeringView>
-      </View>
+        />
+        <View style={{ backgroundColor: bgColor }}>
+          {child}
+        </View>
+      </>
     </HeaderImageScrollView>
   );
 }
