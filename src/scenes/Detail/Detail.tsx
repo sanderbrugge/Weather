@@ -11,6 +11,7 @@ import Header from '../../components/Header';
 import { Icons } from 'react-native-fontawesome';
 import DetailText from '../../components/DetailText/DetailText';
 import { DetailRowStyles } from '../../components/DetailRow/DetailRowStyles';
+import { Weekday } from '../../util/Const';
 
 interface LandInfo {
   name: string;
@@ -55,6 +56,7 @@ class Detail extends React.Component<IProps, IState> {
     const coordinates = this.props.navigation.getParam('coordinates', [BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon]);
     const info = this.props.navigation.getParam('info', {}) as Forecast;
     const bgColor = this.props.navigation.getParam('bgColor', colors.blue);
+    const selected = this.props.navigation.getParam('index', Weekday.MONDAY);
     const data = Object.values(info) as MappedOpenWeather[];
 
     return (
@@ -71,7 +73,7 @@ class Detail extends React.Component<IProps, IState> {
               <FlatList
                 data={data.slice(1)}
                 horizontal
-                renderItem={({ item }) => <DetailRow key={item.day} info={item} />}
+                renderItem={({ item }) => <DetailRow key={item.day} info={item} selected={item.day===selected} />}
                 keyExtractor={(item) => item.day}
               />
               {landInfo &&

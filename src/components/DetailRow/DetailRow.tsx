@@ -1,19 +1,25 @@
 import * as React from 'react';
 import { MappedOpenWeather } from '../../scenes/Home/Home';
 import { View, Text } from 'react-native';
-import { Icons } from 'react-native-fontawesome';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 import { DetailRowStyles } from './DetailRowStyles';
 import DetailText from '../DetailText/DetailText';
 import { average } from '../../util/temp-util';
+import { colors } from '../../styles/base';
 
 interface IProps {
   info: MappedOpenWeather;
+  selected: boolean;
 }
 
-const DetailRow: React.FC<IProps> = ({ info }) => {
+const DetailRow: React.FC<IProps> = ({ info, selected }) => {
+  const selectedDay = selected ? Icons.star : null;
+
   return (
     <View style={DetailRowStyles.container}>
-      <Text style={DetailRowStyles.title} >{info.day}</Text>
+      <FontAwesome style={{ color: colors.yellow }}>
+        <Text style={DetailRowStyles.title}>{info.day}  </Text>{selectedDay} 
+      </FontAwesome>
       <View style={DetailRowStyles.contentContainer}>
         <View style={DetailRowStyles.contentRow}>
           <DetailText icon={Icons.thermometerEmpty} text={`Min: ${info.minTemp}`} />

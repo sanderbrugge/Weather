@@ -55,8 +55,6 @@ function mapInfo(weatherInfo: OpenWeather) {
       accum[obj.day].minTemp = obj.minTemp;
     }
 
-    console.log(`${obj.day} ${accum[obj.day].minTemp}`);
-
     if(accum[obj.day].maxTemp < obj.maxTemp) {
       accum[obj.day].maxTemp = obj.maxTemp;
     }
@@ -91,7 +89,6 @@ class Home extends Component<IProps, IState> {
 
   fetchWeatherData = async (coordinates: Coordinates) => {
     try {
-      console.log(coordinates);
       const response = await fetchWeatherDataCoordinates(coordinates.lat, coordinates.lon);
       this.setState({ weatherInfo: response, bgColor: this.getRandomColor() });
     } catch (e) {
@@ -118,11 +115,11 @@ class Home extends Component<IProps, IState> {
     return availableColors[keys[keys.length * Math.random() << 0]];
   }
 
-  onDaySelect = () => {
+  onDaySelect = (selected: string) => {
     const { weatherInfo, coordinates, bgColor } = this.state;
     if (weatherInfo) {
       const info = mapInfo(weatherInfo);
-      this.props.navigation.navigate('Detail', { 'info': info, 'coordinates': coordinates, 'bgColor': bgColor });
+      this.props.navigation.navigate('Detail', { 'info': info, 'coordinates': coordinates, 'bgColor': bgColor, 'index': selected });
     }
   }
 

@@ -7,13 +7,13 @@ import { getIcon } from '../../util/IconFactory';
 
 interface RowProps {
   info: MappedOpenWeather;
-  onPress: () => void;
+  onPress: (selected: string) => void;
 }
 
 const Row: React.FC<RowProps> = ({ info, onPress }) => {
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={() => onPress(info.day)}
     >
       <View style={RowStyles.container}>
         <Text style={RowStyles.title}>{info.day}</Text>
