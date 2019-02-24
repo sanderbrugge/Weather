@@ -8,7 +8,7 @@ import { MappedOpenWeather, Forecast } from '../Home/Home';
 import { fetchTeleportData } from '../../api/Teleport/Teleport';
 import { DetailStyles } from './DetailStyles';
 import Header from '../../components/Header';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import { Icons } from 'react-native-fontawesome';
 import DetailText from '../../components/DetailText/DetailText';
 import { DetailRowStyles } from '../../components/DetailRow/DetailRowStyles';
 
@@ -25,7 +25,7 @@ interface IState {
 }
 
 class Detail extends React.Component<IProps, IState> {
-  state = {
+  state: IState = {
     landInfo: undefined
   }
 
