@@ -21,15 +21,16 @@ export interface MappedOpenWeather {
   description: string;
   maxTemp: number;
   minTemp: number;
-  humidity: number;
-  windSpeed: number;
+  humidity: number[];
+  temp: number[]
+  windSpeed: number[];
 }
 
 export interface Forecast {
-  [x: string]: MappedOpenWeather[];
+  [x: string]: MappedOpenWeather;
 }
 
-function mapWeatherInfo(weatherInfo: OpenWeather) {
+function mapInfo(weatherInfo: OpenWeather) {
   return weatherInfo.list.reduce<Forecast>((accum, item) => {
     const obj = {
       day: getDayName(getDay(item.dt_txt)),
@@ -37,21 +38,29 @@ function mapWeatherInfo(weatherInfo: OpenWeather) {
       description: item.weather[0].description,
       maxTemp: item.main.temp_max,
       minTemp: item.main.temp_min,
-      humidity: item.main.humidity,
-      windSpeed: item.wind.speed
+      humidity: [item.main.humidity],
+      windSpeed: [item.wind.speed],
+      temp: [item.main.temp]
     }
 
     if (!accum[obj.day]) {
-      accum[obj.day] = [obj];
+      accum[obj.day] = obj;
       return accum;
     }
 
-    accum[obj.day] = accum[obj.day].concat(obj);
+    if(accum[obj.day].minTemp > obj.minTemp) {
+      accum[obj.day].minTemp = obj.minTemp;
+    }
+
+    if(accum[obj.day].maxTemp < obj.maxTemp) {
+      accum[obj.day].maxTemp = obj.maxTemp;
+    }
+
     return accum;
   }, {});
 }
 
-interface IProps extends NavigationInjectedProps<NavigationParams> {}
+interface IProps extends NavigationInjectedProps<NavigationParams> { }
 
 interface IState {
   weatherInfo?: OpenWeather;
@@ -99,11 +108,21 @@ class Home extends Component<IProps, IState> {
   }
 
   onDaySelect = () => {
-    this.props.navigation.navigate('Detail');
+    const { weatherInfo, coordinates, bgColor } = this.state;
+    if (weatherInfo) {
+      const info = mapInfo(weatherInfo)
+
+      this.props.navigation.navigate('Detail', { 'info': info, 'coordinates': coordinates, 'bgColor': bgColor });
+    }
   }
 
   render() {
     const { weatherInfo, coordinates, bgColor } = this.state;
+
+    if(weatherInfo) {
+      console.log(mapInfo(weatherInfo));
+    }
+
 
     return (
       <View style={{ flex: 1 }}>
@@ -111,9 +130,9 @@ class Home extends Component<IProps, IState> {
         <View style={{ flex: 1, backgroundColor: bgColor }}>
           {weatherInfo &&
             <FlatList
-              data={Object.values(mapWeatherInfo(weatherInfo)).slice(1)}
+              data={Object.values(mapInfo(weatherInfo)).slice(1)}
               renderItem={({ item, index }) => <Row key={index} info={item} onPress={this.onDaySelect} />}
-              keyExtractor={(item, index) => item[index].day}
+              keyExtractor={(item) => item.day}
             />
           }
         </View>
