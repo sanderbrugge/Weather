@@ -55,6 +55,8 @@ function mapInfo(weatherInfo: OpenWeather) {
       accum[obj.day].minTemp = obj.minTemp;
     }
 
+    console.log(`${obj.day} ${accum[obj.day].minTemp}`);
+
     if(accum[obj.day].maxTemp < obj.maxTemp) {
       accum[obj.day].maxTemp = obj.maxTemp;
     }
