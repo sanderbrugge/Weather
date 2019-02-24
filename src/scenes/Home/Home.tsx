@@ -11,6 +11,7 @@ import { getDayName } from '../../util/Const';
 import Row from '../../components/Row';
 import { GeometryDetails } from '../../components/MapView/MapView';
 import { colors, listViewBGColors } from '../../styles/base';
+import { withNavigation, NavigationInjectedProps, NavigationParams } from 'react-navigation';
 
 MapboxGL.setAccessToken(TOKEN);
 
@@ -50,13 +51,15 @@ function mapWeatherInfo(weatherInfo: OpenWeather) {
   }, {});
 }
 
+interface IProps extends NavigationInjectedProps<NavigationParams> {}
+
 interface IState {
   weatherInfo?: OpenWeather;
   coordinates: number[];
   bgColor: string;
 }
 
-class Home extends Component<{}, IState> {
+class Home extends Component<IProps, IState> {
   state: IState = {
     weatherInfo: undefined,
     coordinates: [BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon],
@@ -95,19 +98,21 @@ class Home extends Component<{}, IState> {
     return availableColors[keys[keys.length * Math.random() << 0]];
   }
 
-
+  onDaySelect = () => {
+    this.props.navigation.navigate('Detail');
+  }
 
   render() {
     const { weatherInfo, coordinates, bgColor } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
-        <MapView coordinates={coordinates} updateCoordinates={this.updateCoordinates} />
+        <MapView coordinates={coordinates} updateCoordinates={this.updateCoordinates} zoomEnabled pitchEnabled scrollEnabled />
         <View style={{ flex: 1, backgroundColor: bgColor }}>
           {weatherInfo &&
             <FlatList
               data={Object.values(mapWeatherInfo(weatherInfo)).slice(1)}
-              renderItem={({ item, index }) => <Row key={index} info={item} />}
+              renderItem={({ item, index }) => <Row key={index} info={item} onPress={this.onDaySelect} />}
               keyExtractor={(item, index) => item[index].day}
             />
           }
@@ -117,4 +122,4 @@ class Home extends Component<{}, IState> {
   }
 }
 
-export default Home;
+export default withNavigation(Home);

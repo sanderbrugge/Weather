@@ -1,3 +1,2 @@
-import Home from './Home';
-
-export const home = Home;
+export { default as Home } from './Home';
+export { default as Detail } from './Detail';

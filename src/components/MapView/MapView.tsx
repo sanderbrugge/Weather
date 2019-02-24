@@ -5,8 +5,11 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { MapViewStyles } from './styles';
 
 interface IProps {
-  coordinates: number[]
-  updateCoordinates: (e: GeometryDetails) => void;
+  coordinates: number[];
+  zoomEnabled: boolean;
+  pitchEnabled: boolean;
+  scrollEnabled: boolean;
+  updateCoordinates?: (e: GeometryDetails) => void;
 }
 
 export interface GeometryDetails {
@@ -26,11 +29,15 @@ class MapView extends React.Component<IProps> {
   map: MapboxGL.MapView;
 
   render() {
-    const { coordinates, updateCoordinates } = this.props
+    const { coordinates, updateCoordinates, zoomEnabled, pitchEnabled, scrollEnabled } = this.props
 
     return (
       <View style={[MapViewStyles.container, {}]}>
         <MapboxGL.MapView
+          zoomEnabled={zoomEnabled}
+          scrollEnabled={scrollEnabled}
+          pitchEnabled={pitchEnabled}
+          animated
           logoEnabled={false}
           compassEnabled={false}
           ref={(c: MapboxGL.MapView) => (this.map = c)}

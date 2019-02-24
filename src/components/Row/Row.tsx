@@ -8,6 +8,7 @@ import { WeatherMain } from '../../api/OpenWeather/OpenWeather.interfaces';
 
 interface RowProps {
   info: MappedOpenWeather[];
+  onPress: () => void;
 }
 
 interface RowMappedWeather {
@@ -30,12 +31,12 @@ const getInfo = (info: MappedOpenWeather[]) => {
   });
 }
 
-const Row: React.FC<RowProps> = ({ info }) => {
+const Row: React.FC<RowProps> = ({ info, onPress }) => {
   const mappedObj = getInfo(info);
 
   return (
     <TouchableOpacity
-      onPress={() => console.log('clicked')}
+      onPress={onPress}
     >
       <View style={RowStyles.container}>
         <Text style={RowStyles.title}>{mappedObj.day}</Text>
