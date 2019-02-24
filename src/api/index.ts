@@ -1,6 +1,7 @@
 import { OpenWeatherToken } from "../Config";
 
 export const BASE_OPENWEATHER_API = "http://api.openweathermap.org";
+export const BASE_TELEPORT_API = "https://api.teleport.org";
 
 type StringDictionary = { [x: string]: string };
 
@@ -28,6 +29,10 @@ const DEFAULT_OPTIONS: CustomRequestInit = {
 
 export function createOpenWeatherRequest(endpoint: string): Promise<any> {
   const url = `${BASE_OPENWEATHER_API}/${endpoint}&APPID=${OpenWeatherToken}`;
-  console.log(url);
+  return fetch(url, {...DEFAULT_OPTIONS}).then(response => response.json());
+}
+
+export function createTeleportRequest(endpoint: string): Promise<any> {
+  const url = `${BASE_TELEPORT_API}/${endpoint}`;
   return fetch(url, {...DEFAULT_OPTIONS}).then(response => response.json());
 }

@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../../styles/base";
+import { colors, dimensions } from "../../styles/base";
 
 export const DetailRowStyles = StyleSheet.create({
-  container: { borderBottomColor: colors.grey, borderBottomLeftRadius: 40, borderBottomWidth: 0.5, paddingLeft: 20 },
+  container: { borderRightColor: colors.grey, borderRightWidth: 0.5, marginTop: 20, paddingLeft: 20, paddingRight: 10, paddingBottom: 10, width: dimensions.fullWidth },
   title: { color: colors.white, fontSize: 20, marginTop: 10 },
   contentContainer: { flex: 1, flexDirection: 'row', justifyContent: 'space-around' },
   contentRow: { margin: 10, flex: 1 },

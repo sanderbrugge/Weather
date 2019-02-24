@@ -74,7 +74,8 @@ class Detail extends React.Component<IProps> {
               }}>Forecast</Text>
 
               <FlatList
-                data={data}
+                data={data.slice(1)}
+                horizontal
                 renderItem={({ item }) => <DetailRow key={item.day} info={item} />}
                 keyExtractor={(item) => item.day}
               />
