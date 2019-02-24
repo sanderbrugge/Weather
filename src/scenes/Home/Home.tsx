@@ -127,11 +127,6 @@ class Home extends Component<IProps, IState> {
   render() {
     const { weatherInfo, coordinates, bgColor } = this.state;
 
-    if(weatherInfo) {
-      console.log(mapInfo(weatherInfo));
-    }
-
-
     return (
       <View style={{ flex: 1 }}>
         <MapView coordinates={coordinates} updateCoordinates={this.updateCoordinates} zoomEnabled pitchEnabled scrollEnabled />

@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { Text, View, StatusBar, SectionList } from 'react-native';
+import { Text, View, StatusBar, FlatList } from 'react-native';
 import HeaderImageScrollView, { TriggeringView } from 'react-native-image-header-scroll-view';
 import MapView from '../../components/MapView';
 import { NavigationInjectedProps, NavigationParams, withNavigation } from 'react-navigation';
 import { BAZOOKASLATLNG } from '../../Config';
 import { colors } from '../../styles/base';
 import * as Animatable from 'react-native-animatable';
+import DetailRow from '../../components/DetailRow';
+import { MappedOpenWeather } from '../Home/Home';
 
 interface IProps extends NavigationInjectedProps<NavigationParams> { }
 
@@ -16,14 +18,10 @@ class Detail extends React.Component<IProps> {
     const coordinates = this.props.navigation.getParam('coordinates', [BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon]);
     const info = this.props.navigation.getParam('info', {});
     const bgColor = this.props.navigation.getParam('bgColor', colors.blue);
-
-    console.log(info);
-
-    const sectionHeaders = Object.keys(info);
-    const sectionData = Object.values(info);
+    const data = Object.values(info) as MappedOpenWeather[];
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: bgColor }}>
         <StatusBar barStyle="light-content" />
         <HeaderImageScrollView
           maxOverlayOpacity={0.6}
@@ -75,8 +73,11 @@ class Detail extends React.Component<IProps> {
                 color: colors.white
               }}>Forecast</Text>
 
-             
-
+              <FlatList
+                data={data}
+                renderItem={({ item }) => <DetailRow key={item.day} info={item} />}
+                keyExtractor={(item) => item.day}
+              />
 
             </TriggeringView>
           </View>
@@ -87,13 +88,3 @@ class Detail extends React.Component<IProps> {
 }
 
 export default withNavigation(Detail);
-/***
- *  <SectionList
-                style={{ marginTop: 100 }}
-                stickySectionHeadersEnabled
-                sections={info}
-                renderSectionHeader={({ item }) => <Text> {section.title} </Text>}
-                renderItem={({ item }) => <Text> {item} </Text>}
-                keyExtractor={(item) => item.title}
-              />
- */
