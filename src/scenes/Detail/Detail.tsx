@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text, View, StatusBar, FlatList } from 'react-native';
 import { NavigationInjectedProps, NavigationParams, withNavigation } from 'react-navigation';
 import { BAZOOKASLATLNG } from '../../Config';
-import { colors } from '../../styles/base';
+import { colors, dimensions } from '../../styles/base';
 import DetailRow from '../../components/DetailRow';
 import { MappedOpenWeather, Forecast } from '../Home/Home';
 import { fetchTeleportData } from '../../api/Teleport/Teleport';
@@ -67,31 +67,30 @@ class Detail extends React.Component<IProps, IState> {
           coordinates={coordinates}
           bgColor={bgColor}
           child={
-            <>
+            <View style={{ flex: 1 }}>
               <Text style={DetailStyles.sectionTitle}>Forecast</Text>
 
-              <FlatList
-                data={data.slice(1)}
-                horizontal
-                renderItem={({ item }) => <DetailRow key={item.day} info={item} selected={item.day===selected} />}
-                keyExtractor={(item) => item.day}
-              />
+              <View style={{ height: 150 }}>
+                <FlatList
+                  data={data.slice(1)}
+                  horizontal
+                  renderItem={({ item }) => <DetailRow key={item.day} info={item} selected={item.day === selected} />}
+                  keyExtractor={(item) => item.day}
+                />
+              </View>
               {landInfo &&
                 <>
                   <Text style={DetailStyles.sectionTitle}>Info</Text>
                   <View style={DetailRowStyles.container}>
-
-                    <View style={DetailRowStyles.contentContainer}>
-                      <View style={DetailRowStyles.contentRow}>
-                        <DetailText icon={Icons.clock} text={landInfo.timezone} />
-                        <DetailText icon={Icons.map} text={landInfo.name} />
-                        <DetailText icon={Icons.user} text={`${landInfo.population}`} />
-                      </View>
+                    <View style={{ marginLeft: 10 }}>
+                      <DetailText icon={Icons.clock} text={landInfo.timezone} />
+                      <DetailText icon={Icons.map} text={landInfo.name} />
+                      <DetailText icon={Icons.user} text={`${landInfo.population}`} />
                     </View>
                   </View>
                 </>
               }
-            </>
+            </View>
           }
         />
       </View>
