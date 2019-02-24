@@ -38,13 +38,16 @@ function mapInfo(weatherInfo: OpenWeather) {
       description: item.weather[0].description,
       maxTemp: item.main.temp_max,
       minTemp: item.main.temp_min,
-      humidity: [item.main.humidity],
-      windSpeed: [item.wind.speed],
-      temp: [item.main.temp]
+      temp: [],
+      humidity: [],
+      windSpeed: []
     }
 
     if (!accum[obj.day]) {
       accum[obj.day] = obj;
+      accum[obj.day].temp = [item.main.temp];
+      accum[obj.day].humidity = [item.main.humidity];
+      accum[obj.day].windSpeed = [item.wind.speed]
       return accum;
     }
 
@@ -55,6 +58,11 @@ function mapInfo(weatherInfo: OpenWeather) {
     if(accum[obj.day].maxTemp < obj.maxTemp) {
       accum[obj.day].maxTemp = obj.maxTemp;
     }
+
+
+    accum[obj.day].temp = [...accum[obj.day].temp, item.main.temp];
+    accum[obj.day].humidity = [...accum[obj.day].humidity, item.main.humidity];
+    accum[obj.day].windSpeed = [...accum[obj.day].windSpeed, item.wind.speed]
 
     return accum;
   }, {});
