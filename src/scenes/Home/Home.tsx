@@ -118,19 +118,14 @@ class Home extends Component<IProps, IState> {
   onDaySelect = () => {
     const { weatherInfo, coordinates, bgColor } = this.state;
     if (weatherInfo) {
-      const coord = {
-        lat: coordinates[0],
-        lon: coordinates[1]
-      }
       const info = mapInfo(weatherInfo);
-
       this.props.navigation.navigate('Detail', { 'info': info, 'coordinates': coordinates, 'bgColor': bgColor });
     }
   }
 
   render() {
     const { weatherInfo, coordinates, bgColor } = this.state;
-    
+
     return (
       <View style={{ flex: 1 }}>
         <MapView coordinates={coordinates} updateCoordinates={this.updateCoordinates} zoomEnabled pitchEnabled scrollEnabled />
