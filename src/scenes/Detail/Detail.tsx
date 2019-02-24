@@ -78,17 +78,17 @@ class Detail extends React.Component<IProps, IState> {
                   keyExtractor={(item) => item.day}
                 />
               </View>
+
+
+              <Text style={DetailStyles.sectionTitle}>Info</Text>
               {landInfo &&
-                <>
-                  <Text style={DetailStyles.sectionTitle}>Info</Text>
-                  <View style={DetailRowStyles.container}>
-                    <View style={{ marginLeft: 10 }}>
-                      <DetailText icon={Icons.clock} text={landInfo.timezone} />
-                      <DetailText icon={Icons.map} text={landInfo.name} />
-                      <DetailText icon={Icons.user} text={`${landInfo.population}`} />
-                    </View>
+                <View style={DetailRowStyles.borderlessContainer}>
+                  <View style={{ marginLeft: 10 }}>
+                    <DetailText icon={Icons.clock} text={landInfo.timezone} />
+                    <DetailText icon={Icons.map} text={landInfo.name} />
+                    <DetailText icon={Icons.user} text={`${landInfo.population}`} />
                   </View>
-                </>
+                </View>
               }
             </View>
           }
