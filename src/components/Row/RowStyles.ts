@@ -10,7 +10,8 @@ export const RowStyles = StyleSheet.create({
     borderBottomWidth: 0.5,
     justifyContent: 'center',
     height: 100,
-    padding: 20
+    padding: 20,
+    borderBottomLeftRadius: 80
   },
   title: {
     flex: 3,
