@@ -79,7 +79,7 @@ interface IState {
 class Home extends Component<IProps, IState> {
   state: IState = {
     weatherInfo: undefined,
-    coordinates: [BAZOOKASLATLNG.lat, BAZOOKASLATLNG.lon],
+    coordinates: [BAZOOKASLATLNG.lon, BAZOOKASLATLNG.lat],
     bgColor: colors.blue
   }
 
@@ -89,6 +89,7 @@ class Home extends Component<IProps, IState> {
 
   fetchWeatherData = async (coordinates: Coordinates) => {
     try {
+      console.log(coordinates);
       const response = await fetchWeatherDataCoordinates(coordinates.lat, coordinates.lon);
       this.setState({ weatherInfo: response, bgColor: this.getRandomColor() });
     } catch (e) {
@@ -98,8 +99,8 @@ class Home extends Component<IProps, IState> {
 
   updateCoordinates = (e: GeometryDetails) => {
     const coordinates = {
-      lat: e.geometry.coordinates[0],
-      lon: e.geometry.coordinates[1],
+      lat: e.geometry.coordinates[1],
+      lon: e.geometry.coordinates[0],
     }
 
     this.setState({ coordinates: e.geometry.coordinates })
