@@ -50,6 +50,10 @@ class Detail extends React.Component<IProps, IState> {
     }
   }
 
+  navigateBack = () => {
+    this.props.navigation.pop();
+  }
+
   render() {
     const { landInfo } = this.state;
 
@@ -63,6 +67,7 @@ class Detail extends React.Component<IProps, IState> {
       <View style={DetailStyles.container}>
         <StatusBar barStyle="light-content" />
         <Header
+          goBack={this.navigateBack}
           title={'Forecast'}
           coordinates={coordinates}
           bgColor={bgColor}

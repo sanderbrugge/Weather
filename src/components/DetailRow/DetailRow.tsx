@@ -22,9 +22,9 @@ const DetailRow: React.FC<IProps> = ({ info, selected }) => {
       </FontAwesome>
       <View style={DetailRowStyles.contentContainer}>
         <View style={DetailRowStyles.contentRow}>
-          <DetailText icon={Icons.thermometerEmpty} text={`Min: ${info.minTemp}`} />
-          <DetailText icon={Icons.thermometerFull} text={`Max: ${info.maxTemp}`} />
-          <DetailText icon={Icons.thermometerHalf} text={`Temp: ${average(info.temp)}`} />
+          <DetailText icon={Icons.thermometerEmpty} text={`Min: ${info.minTemp} °C`} />
+          <DetailText icon={Icons.thermometerFull} text={`Max: ${info.maxTemp} °C`} />
+          <DetailText icon={Icons.thermometerHalf} text={`Temp: ${average(info.temp)} °C`} />
         </View>
         <View style={DetailRowStyles.contentRow}>
           <DetailText icon={Icons.tachometerAlt} text={`Wind: ${average(info.windSpeed)}`} />

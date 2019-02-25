@@ -24,3 +24,7 @@ export const listViewBGColors = {
   green: '#008000',
   purple: '800080',
 }
+
+export function baseColorWithOpacity(color: string, opacity: string) {
+  return `${color}${opacity}`;
+}
