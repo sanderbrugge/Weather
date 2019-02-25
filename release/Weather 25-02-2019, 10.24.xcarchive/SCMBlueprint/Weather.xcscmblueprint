@@ -1,0 +1,26 @@
+{
+  "DVTSourceControlWorkspaceBlueprintLocationsKey" : {
+    "48C50F7BB633C8B8396B043D7ABDBE53C42D3599" : {
+      "DVTSourceControlBranchIdentifierKey" : "master",
+      "DVTSourceControlLocationRevisionKey" : "320eafb1239fb41a0413d1c6e308e677bbe3fa1d",
+      "DVTSourceControlBranchOptionsKey" : 4,
+      "DVTSourceControlBranchRemoteNameKey" : "origin",
+      "DVTSourceControlWorkspaceBlueprintLocationTypeKey" : "DVTSourceControlBranch"
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "48C50F7BB633C8B8396B043D7ABDBE53C42D3599",
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7F87342F-55BD-4C81-9D29-FD255BAAF82A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "48C50F7BB633C8B8396B043D7ABDBE53C42D3599" : "Weather\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Weather",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ios\/Weather.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git@github.com:vixez\/SanderBruggeTest.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "48C50F7BB633C8B8396B043D7ABDBE53C42D3599"
+    }
+  ]
+}
