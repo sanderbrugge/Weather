@@ -7,8 +7,8 @@
     "test": "jest",
     "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
     "build-android": "cd ./android && ./gradlew app:assembleDebug && ./gradlew installDebug",
-    "android": "node node_modules/react-native/local-cli/cli.js run-android",
-    "ios-release": "run-ios --variant=release"
+    "android": "node node_modules/react-native/local-cli/cli.js run-android  && adb reverse tcp:8081 tcp:8081",
+    "ios-release": "node node_modules/react-native/local-cli/cli.js run-ios --variant=release"
   },
   "dependencies": {
     "@mapbox/react-native-mapbox-gl": "6.1.3",

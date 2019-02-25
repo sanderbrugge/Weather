@@ -2,6 +2,7 @@ package com.weather;
 
 import android.app.Application;
 
+import com.facebook.react.BuildConfig;
 import com.facebook.react.ReactApplication;
 import com.mapbox.rctmgl.RCTMGLPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
